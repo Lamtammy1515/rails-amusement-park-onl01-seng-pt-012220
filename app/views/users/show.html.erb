@@ -1,23 +1,14 @@
-<p id="notice"><%= notice %></p>
-
-
-
-<% if flash[:message] %>
-  <div class="center alert">
-    <p><%= flash[:message] %></p>
-  </div>
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
 <% end %>
 
-<div class="center">
+Name: <%= @user.name %>
+Tickets: <%= @user.tickets %>
+Mood: <%= @user.mood %>
+Height: <%= @user.height %>
 
-  <div class="info">
-    <% if @user.admin %>
-      <p><strong>ADMIN</strong></p>
-    <% end %>
-    <p><strong>Name:</strong> <%= @user.name %></p>
-    <p><strong>Tickets:</strong> <%= @user.tickets %></p>
-    <p><strong>Mood:</strong>  <%= @user.mood %></p>
-    <p><strong>Height:</strong> <%= @user.height %> inches</p>
-    <p><%= link_to 'See attractions', attractions_path %></p>
-  </div>
-</div> 
+<%= link_to "See attractions", attractions_path %>
+
+<% if @user.admin == true %>
+  ADMIN
+<% end %>

@@ -1,16 +1,15 @@
 class RidesController < ApplicationController
+
   def create
-    ride = Ride.create(ride_params)
-    message = ride.take_ride
-    redirect_to user_path(ride.user), flash: { message: message }
-  end
+    @ride = Ride.new
+    @ride.user = User.find(session[:user_id])
+    @ride.attraction = Attraction.find(params[:attraction_id])
+    @ride.save
+    @user = @ride.user
+    @attraction = @ride.attraction
+    message = @ride.take_ride
+    flash[:notice] = message
 
-  private
-
-  def ride_params
-    params.require(:ride).permit(
-    :user_id,
-    :attraction_id
-    )
+    redirect_to user_path(@user)
   end
-end
+ end

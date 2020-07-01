@@ -1,21 +1,20 @@
-class SessionController < ApplicationController
-  skip_before_action :verified_user, only: [:new, :create]
-
+class SessionsController < ApplicationController
   def new
     @user = User.new
   end
 
   def create
-    if @user = User.find_by(name: params[:user][:name])
-      session[:user_id] = @user.id
-      redirect_to user_path(@user)
-    else
-      render 'home'
+    @user = User.find_by(name: params[:user][:name])
+      if @user &&  @user.authenticate(params[:user][:password])
+        session[:user_id] = @user.id
+        redirect_to user_path(@user)
+      else
+        redirect_to '/'
+      end
     end
-  end
 
   def destroy
-    session.delete("user_id")
-    redirect_to root_path
+    session.delete :user_id
+    redirect_to '/'
   end
 end
